@@ -7,7 +7,7 @@ Compilation
 	./autogen.sh && ./configure && make
 
 Documentation
-	Generate documentation using doxygen: doxygen DoxyFile
+	Generate documentation using doxygen: doxygen Doxyfile
 	Documentation entry: doc/html/index.html
 
 See LICENSE for the license.
