@@ -1,11 +1,19 @@
+/**\file
+ * \brief Run test code.
+ *
+ * \author Rick Lan
+ * See LICENSE for license.
+ */
+
 #include <iostream>
 #include <cmath>
 
 #include "complexmultiply.h"
+#include "fir_regression.h"
 
 void test_cxmult(void)
 {
-	std::cout << __FUNCTION__ << std::endl;
+	std::cout << __func__ << "..." << std::endl;
 	for (size_t i = 0; i < 8; i++) {
 		std::cout << "i " << i << std::endl;
 		double realp = cos(2.0*M_PI*i/8.0);
@@ -28,6 +36,7 @@ void test_cxmult(void)
 int main(int argc, char **argv)
 {
 	test_cxmult();
+	regress_fir();
 	
 	return 0;
 }
