@@ -13,7 +13,7 @@
  * - interp(): upsample then filter.
  *
  * \author Rick Lan
- * See LICENSE for license.
+ * \copyright See LICENSE for license.
  */
 
 #ifndef FIR_H_

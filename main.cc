@@ -2,7 +2,7 @@
  * \brief Run test code.
  *
  * \author Rick Lan
- * See LICENSE for license.
+ * \copyright See LICENSE for license.
  */
 
 #include <iostream>

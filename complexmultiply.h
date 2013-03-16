@@ -5,7 +5,7 @@
  * Inputs are assumed quantized.
  *
  * \author Rick Lan
- * See LICENSE for license.
+ * \copyright See LICENSE for license.
  */
 
 #ifndef COMPLEXMULTIPLY_H_

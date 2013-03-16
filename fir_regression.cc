@@ -4,7 +4,7 @@
  * Will generate data set for regression test in MATLAB.
  *
  * \author Rick Lan
- * See LICENSE for license.
+ * \copyright See LICENSE for license.
  */
 
 #include "fir.h"
