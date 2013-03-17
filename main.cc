@@ -6,18 +6,21 @@
  */
 
 #include <iostream>
+#include <iomanip>
+#include <complex>
 #include <cmath>
 
 #include "complexmultiply.h"
 #include "fir_regression.h"
+#include "iir_regression.h"
 
 void test_cxmult(void)
 {
 	std::cout << __func__ << "..." << std::endl;
 	for (size_t i = 0; i < 8; i++) {
 		std::cout << "i " << i << std::endl;
-		double realp = cos(2.0*M_PI*i/8.0);
-		double imagp = sin(2.0*M_PI*i/8.0);
+		double realp = std::cos(2.0*M_PI*i/8.0);
+		double imagp = std::sin(2.0*M_PI*i/8.0);
 		std::complex<double> x(realp, imagp);
 		std::complex<double> y = conj(x);
 		std::complex<double> z;
@@ -33,10 +36,12 @@ void test_cxmult(void)
 }
 
 
+
 int main(int argc, char **argv)
 {
 	test_cxmult();
 	regress_fir();
+	regress_iirbiquad();
 	
 	return 0;
 }

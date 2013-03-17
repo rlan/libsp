@@ -12,11 +12,13 @@ CCFILES_TEMPLATES =
 
 ## .h files for all non-templates
 HFILES = \
-	fir_regression.h
+	fir_regression.h \
+	iir_regression.h
 
 ## .cc files for all non-templates
 CCFILES = \
 	fir_regression.cc \
+	iir_regression.cc \
 	main.cc
 
 ## all the source files that are compiled into the
