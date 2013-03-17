@@ -89,7 +89,7 @@ public:
 	/** Zero delay line. */
 	void init(void)
 	{
-		std::fill(DelayLine_.begin(), DelayLine_.end(), 0);
+		std::fill(DelayLine_.begin(), DelayLine_.end(), T(0));
 	}
 
 	/** Textbook filter operation. Fill delay line, multiply and accumulate. */
