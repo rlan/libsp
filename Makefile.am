@@ -4,6 +4,7 @@ noinst_PROGRAMS = main
 ## .h files for all templates
 HFILES_TEMPLATES = \
 	complexmultiply.h \
+	filter.h \
 	fir.h
 
 ## .cc files for all templates

@@ -25,7 +25,9 @@
 #include <algorithm>
 #include <string>
 #include <sstream>
+#include <iostream>
 
+#include "filter.h"
 #include "complexmultiply.h"
 
 
@@ -46,7 +48,7 @@
  *       + Coeffs[N-1]*DelayLine[N-1];
  */
 template<class T>
-class FIRBasic
+class FIRBasic : public Filter<T>
 {
 public:
 	/**
@@ -59,8 +61,8 @@ public:
 	 * input was a impulse, the output contains the main tap.
 	 */
 	FIRBasic(const std::vector<T> &Coeffs)
-	: DelayLine_(Coeffs.size(), 0)
-	, Coeffs_(Coeffs)
+	: Filter<T>(Coeffs)
+	, DelayLine_(Coeffs.size(), 0)
 	, MainTapIndex_(Coeffs.size()/2 - (Coeffs.size()%2 ? 0 : 1))
 	{
 		if (Coeffs.size() == 0)
@@ -74,8 +76,8 @@ public:
 	 * input was a impulse, the output contains the main tap.
 	 */
 	FIRBasic(const std::vector<T> &Coeffs,	const size_t MainTapIndex)
-	: DelayLine_(Coeffs.size(), 0)
-	, Coeffs_(Coeffs)
+	: Filter<T>(Coeffs)
+	, DelayLine_(Coeffs.size(), 0)
 	, MainTapIndex_(MainTapIndex)
 	{
 		if (Coeffs.size() == 0)
@@ -158,7 +160,6 @@ public:
 	}
 
 	size_t main_tap_index(void) { return MainTapIndex_; }
-	size_t size(void) { return Coeffs_.size(); }
 
 	virtual ~FIRBasic()	{ }
 
@@ -167,7 +168,6 @@ private:
 
 protected:
 	std::deque<T> DelayLine_;
-	const std::vector<T> Coeffs_;
 	const size_t MainTapIndex_;
 
 	/**
@@ -192,8 +192,8 @@ protected:
 	compute(void)
 	{
 		T Out = 0;
-		for (size_t i = 0; i < Coeffs_.size(); i++)
-			Out += DelayLine_[i]*Coeffs_[i];;
+		for (size_t i = 0; i < Filter<T>::Coeffs_.size(); i++)
+			Out += DelayLine_[i]*Filter<T>::Coeffs_[i];;
 		return Out;
 	}
 
@@ -212,9 +212,9 @@ protected:
 			T Accum = 0;
 			size_t InI = 0;
 			for (	size_t CoeffI = OutI;
-					CoeffI < Coeffs_.size();
+					CoeffI < Filter<T>::Coeffs_.size();
 					CoeffI += Rate)
-				Accum += Coeffs_[CoeffI]*DelayLine_[InI++];
+				Accum += Filter<T>::Coeffs_[CoeffI]*DelayLine_[InI++];
 			Out[OutI] = Accum;
 		}
 		return Out;
