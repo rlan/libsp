@@ -10,6 +10,7 @@ doc/
 aclocal.m4
 config.h
 config.h.in
+config.h.in~
 config.log
 config.status
 configure
@@ -53,6 +54,9 @@ local.properties
 
 # PDT-specific
 .buildpath
+
+# Autotools-specific
+.autotools
 
 
 #################
