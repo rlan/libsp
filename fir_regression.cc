@@ -82,19 +82,13 @@ regress_fir_do(
 		)
 {
 	std::cout << "Main tap index: " << firBasic.main_tap_index() << std::endl;
-	//Probe pCoeff(fileNamePrefix + "coeff.txt");
-	//pCoeff.AddVector(coeff);
 	write_to<T>(fileNamePrefix + "coeff.txt", coeff);
-	//Probe pIn(fileNamePrefix + "in.txt");
-	//pIn.AddVector(in);
 	write_to<T>(fileNamePrefix + "in.txt", in);
 
 	// Test filter()
 	std::vector<T> out(in.size());
 	for (size_t i = 0; i < out.size(); i++)
 		out[i] = firBasic.filter(in[i]);
-	//Probe pFilter(fileNamePrefix + "filter.txt");
-	//pFilter.AddVector(out);
 	write_to<T>(fileNamePrefix + "filter.txt", out);
 	firBasic.init(); // clear delay line
 
@@ -118,17 +112,10 @@ regress_fir_do(
 			throw std::exception();
 		}
 	}
-	//Probe pDecimate(fileNamePrefix + "decimate.txt");
-	//pDecimate.AddVector(out);
 	write_to<T>(fileNamePrefix + "decimate.txt", out);
 	firBasic.init(); // clear delay line
 
 	// Test interp()
-	/*
-	Probe pInterp(fileNamePrefix + "interp.txt");
-	for (size_t i = 0; i < in.size(); i++)
-		pInterp.AddVector(firBasic.interp(in[i],3));
-	*/
 	const size_t rate = 3;
 	std::vector<T> interpOut(rate);
 	std::vector<T> allOut;
@@ -297,5 +284,5 @@ void write_to(const std::string &fileName, std::vector<T> data)
 
 double urand(void)
 {
-	return rand() / double (RAND_MAX);
+	return std::rand() / double (RAND_MAX);
 }
