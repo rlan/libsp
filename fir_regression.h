@@ -30,5 +30,6 @@ void regress_fir_automatic_phase(const size_t mainTapIndex);
 template <class T>
 void write_to(const std::string &fileName, std::vector<T> data);
 
+double urand(void);
 
 #endif /* FIR_REGRESSION_H_ */

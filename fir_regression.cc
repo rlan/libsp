@@ -45,11 +45,11 @@ void regress_fir_double(void)
 	// create a symmetric filter
 	for (size_t i = 0; i < coeff.size()/2; i++)
 	{
-		coeff[i] = std::rand();
+		coeff[i] = urand();
 		coeff[coeff.size()-1 - i] = coeff[i];
 	}
 	if (coeffLength % 2)
-		coeff[coeffLength/2] = std::rand();
+		coeff[coeffLength/2] = urand();
 	std::cout << "coeffs are:" << std::endl;
 	for (size_t i = 0; i < coeff.size(); i++)
 		std::cout << i << " " << coeff[i] << std::endl;
@@ -57,7 +57,7 @@ void regress_fir_double(void)
 	// going to use same input for filter(), decimate() and interp()
 	std::vector<double> in(coeffLength*30);
 	for (size_t i = 0; i < in.size(); i++)
-		in[i] = std::rand();
+		in[i] = urand();
 
 
 
@@ -153,11 +153,11 @@ void regress_fir_complex_double(void)
 	// create a symmetric filter
 	for (size_t i = 0; i < coeff.size()/2; i++)
 	{
-		coeff[i] = cxdouble(std::rand(), std::rand());
+		coeff[i] = cxdouble(urand(), urand());
 		coeff[coeff.size()-1 - i] = coeff[i];
 	}
 	if (coeffLength % 2)
-		coeff[coeffLength/2] = cxdouble(std::rand(), std::rand());
+		coeff[coeffLength/2] = cxdouble(urand(), urand());
 	std::cout << "coeffs are:" << std::endl;
 	for (size_t i = 0; i < coeff.size(); i++)
 		std::cout << i << " " << coeff[i] << std::endl;
@@ -165,7 +165,7 @@ void regress_fir_complex_double(void)
 	// going to use same input for filter(), decimate() and interp()
 	std::vector<cxdouble> in(coeffLength*30);
 	for (size_t i = 0; i < in.size(); i++)
-		in[i] = cxdouble(std::rand(), std::rand());
+		in[i] = cxdouble(urand(), urand());
 
 
 
@@ -293,4 +293,9 @@ void write_to(const std::string &fileName, std::vector<T> data)
 	for (size_t i = 0; i < data.size(); i++)
 		fp << data[i] << std::endl;
 	fp.close();
+}
+
+double urand(void)
+{
+	return rand() / double (RAND_MAX);
 }
