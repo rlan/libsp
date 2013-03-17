@@ -1,10 +1,8 @@
 /**\file
- * \brief Abstract Base Class of a Filter
+ * \brief Abstract base class of a filter
  *
- * Defines basic operation of a filter:
- * - Store coefficients.
- * - Compute an output.
- * - Update memory in the filter.
+ * \author Rick Lan
+ * \copyright See LICENSE for license.
  */
 
 #ifndef FILTER_H_
@@ -12,7 +10,13 @@
 
 #include <vector>
 
-
+/**Abstract base class of a filter
+ *
+ * Defines interfaces of a filter for derived classes:
+ * - Stores coefficients.
+ * - Computes an output.
+ * - Updates memory in the filter.
+ */
 template<class T>
 class Filter
 {
@@ -28,22 +32,13 @@ protected:
 	const std::vector<T> Coeffs_;
 
 	/** Update memory in the filter. */
-	virtual void
-	shift(const T &In)
-	{ }
+	virtual void shift(const T &In) = 0;
 
 	/** Compute an output. */
-	virtual T
-	compute(void)
-	{ return T(0); }
+	virtual T compute(void) = 0;
 
-	/** Filter operation. */
-	virtual T
-	filter(const T &In)
-	{
-		shift(In);
-		return compute();
-	}
+	/** Do filter operation. */
+	virtual T filter(const T &In) = 0;
 
 private:
 	Filter(); // disabled
