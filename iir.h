@@ -33,9 +33,10 @@ class IIRBiquad : public Filter<T>
 public:
 	/** Define coefficients.
 	 * Coefficient vector: [b0 b1 b2 a0 a1 a2 gain]
-	 * a0 is assumed to be 1.
+	 * a0 is assumed to be 1.0.
+	 * If gain is missing, it is assumed to be 1.0.
 	 */
-	IIRBiquad(std::vector<T> Coeffs)
+	IIRBiquad(const std::vector<T> &Coeffs)
 	: Filter<T>(Coeffs)
 	, DelayLine_(2, T(0))
 	{
@@ -53,6 +54,8 @@ public:
 		else
 			gain_ = 1.0;
 	}
+
+	virtual ~IIRBiquad() { }
 
 	/** Zero delay line. */
 	virtual void init(void)
