@@ -66,6 +66,7 @@ public:
 	 */
 	virtual void shift(const T &In)
 	{
+		DelayLine_.push_front(In);
 		DelayLine_.pop_back();
 	}
 
@@ -77,7 +78,7 @@ public:
 	{
 		T w = gain_ * In_ - a1_ * DelayLine_[0] - a2_ * DelayLine_[1];
 		T y =   b0_ * w   + b1_ * DelayLine_[0] + b2_ * DelayLine_[1];
-		DelayLine_.push_front(w);
+		shift(w);
 		return y;
 	}
 
@@ -86,7 +87,6 @@ public:
 	{
 		In_ = In;
 		T out = compute();
-		shift(T(0));
 		return out;
 	}
 
