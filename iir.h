@@ -107,4 +107,57 @@ private:
 	IIRBiquad(); // disabled
 };
 
+
+/**
+ * IIR biquad filter with fixed-point modeling.
+ */
+template <
+	class T_MULT_GAIN=double,
+	class T_MULT_FB=double,
+	class T_W=double,
+	class T_MULT_FF=double,
+	class T_OUT=double>
+class IIRBiquadQ : public IIRBiquad<double>
+{
+public:
+	/** Define coefficients.
+	 * Coefficient vector: [b0 b1 b2 a0 a1 a2 gain]
+	 * a0 is assumed to be 1.0.
+	 * If gain is missing, it is assumed to be 1.0.
+	 */
+	IIRBiquadQ(const std::vector<double> &Coeffs)
+	: IIRBiquad<double>(Coeffs)
+	{ }
+
+	virtual ~IIRBiquadQ() { }
+
+	/** Compute an output using direct form II.
+	 * w(n) = gain x(n) - a1 w(n-1) - a2 w(n-2)
+	 * y(n) = b0 w(n) + b1 w(n-1) + b2 w(n-2)
+	 *
+	 * Assumes input and coefficients are already quantized.
+	 */
+	virtual double compute(void)
+	{
+		//T w = gain_ * In_ - a1_ * DelayLine_[0] - a2_ * DelayLine_[1];
+		//T y =   b0_ * w   + b1_ * DelayLine_[0] + b2_ * DelayLine_[1];
+		T_MULT_GAIN mg = gain_ * In_;
+		T_MULT_FB mfb1 = a1_ * DelayLine_[0];
+		T_MULT_FB mfb2 = a2_ * DelayLine_[1];
+		T_W w = mg - mfb1 - mfb2;
+
+		T_MULT_FF mff1 = b0_ * (double)w;
+		T_MULT_FF mff2 = b1_ * DelayLine_[0];
+		T_MULT_FF mff3 = b2_ * DelayLine_[1];
+		T_OUT y = mff1 + mff2 + mff3;
+
+		shift((double)w);
+		return (double)y;
+	}
+
+protected:
+
+private:
+};
+
 #endif

@@ -5,19 +5,19 @@ function []=iir_regression()
 % Rick Lan
 % See LICENSE for license.
 
-regress_biquad();
+regress_biquad('regress_iirbiquad_float');
+regress_biquad('regress_iirbiquad_fixed');
 end
 
 
-function []=regress_biquad()
-disp('regress_iirbiquad...');
-c=load('regress_iirbiquad_coeffs.txt');
-o=load('regress_iirbiquad_impulse_response.txt');
+function []=regress_biquad(prefix)
+fprintf('%s ...\n', prefix);
+c=load([prefix, '_coeffs.txt']);
+o=load([prefix, '_impulse_response.txt']);
 b=c(1:3)*c(7);
 a=c(4:6);
 ref=impz(b,a,100);
-msg=sprintf('mse is %.12g', mse(ref,o));
-disp(msg);
+fprintf('mse is %.12g\n', mse(ref,o));
 end
 
 
