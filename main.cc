@@ -13,6 +13,7 @@
 #include "complexmultiply.h"
 #include "fir_regression.h"
 #include "iir_regression.h"
+#include "estimator.h"
 
 void test_cxmult(void)
 {
@@ -36,12 +37,65 @@ void test_cxmult(void)
 }
 
 
+void test_estimator_real(void)
+{
+	std::cout << __func__ << "..." << std::endl;
+	
+	const size_t N = 10;
+	std::vector<double> samples(N);
+	for (size_t i = 1; i <= N; i++)
+		samples[i] = i;
+	std::cout << "Samples are: ";
+	for (size_t i = 1; i <= N; i++)
+		std::cout << samples[i] << " ";
+	std::cout << std::endl;
+	
+	MeanEstimator<double> me;
+	for (size_t i = 1; i <= N; i++)
+		me.record(samples[i]);
+	std::cout << "Mean of " << me.count() << " sample(s) is " << me.estimate() << std::endl;
+
+	VarianceEstimator<double> veu(me.estimate(), true); // unbiased
+	VarianceEstimator<double> veb(me.estimate(), false); // biased
+	for (size_t i = 1; i <= N; i++) {
+		veu.record(samples[i]);
+		veb.record(samples[i]);
+	}
+	std::cout << "Unbiased variance of " << veu.count() << " sample(s) is " << veu.estimate() << std::endl;
+	std::cout << "Biased variance of " << veb.count() << " sample(s) is " << veb.estimate() << std::endl;
+
+	me.reset();
+	veu.reset();
+	veb.reset();
+}
+	
+void test_estimator_complex(void)
+{
+	std::cout << __func__ << "..." << std::endl;
+
+	MeanEstimator< std::complex<double> > cxme;
+	std::cout << "Samples are: ";
+	for (size_t i = 1; i <= 10; i++) {
+		std::cout << std::complex<double>(double(i), double(2*i)) << " ";
+		cxme.record(std::complex<double>(double(i), double(2*i)));
+	}
+	std::cout << std::endl;
+	std::cout << "Mean of " << cxme.count() << " sample(s) is " << cxme.estimate() << std::endl;
+}
+
+void test_estimator(void)
+{
+	test_estimator_real();
+	test_estimator_complex();
+}
+
 
 int main(int argc, char **argv)
 {
 	test_cxmult();
-	regress_fir();
-	regress_iirbiquad();
+//	regress_fir();
+//	regress_iirbiquad();
+	test_estimator();
 	
 	return 0;
 }

@@ -3,6 +3,7 @@ noinst_PROGRAMS = main
 
 ## .h files for all templates
 HFILES_TEMPLATES = \
+	estimator.h \
 	complexmultiply.h \
 	filter.h \
 	fir.h
