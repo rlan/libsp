@@ -10,7 +10,7 @@
 #ifndef ESTIMATOR_H_
 #define ESTIMATOR_H_
 
-
+#include <cmath>
 #include <cstdlib>
 #include <complex>
 
@@ -80,13 +80,13 @@ class VarianceEstimator : public MeanEstimator<T>
 {
 public:
 	VarianceEstimator()
-	: mean_(T(0))
-	, unbiased_(true)
+	: unbiased_(true)
+	, mean_(T(0))
 	{ }
 	
 	VarianceEstimator(const T &mean, bool unbiased = true)
-	: mean_(mean)
-	, unbiased_(unbiased)
+	: unbiased_(unbiased)
+	, mean_(mean)
 	{ }
 	
 	virtual void record(const T &x)
@@ -97,20 +97,75 @@ public:
 	
 	virtual T estimate(void)
 	{
-		if (unbiased_) {
+		if (MeanEstimator<T>::count_ == 0)
+			return NAN;
+
+		if (unbiased_)
 			return MeanEstimator<T>::accumulator_ / static_cast<T>(MeanEstimator<T>::count_ - 1);
-		} else {
+		else
 			return MeanEstimator<T>::accumulator_ / static_cast<T>(MeanEstimator<T>::count_);
-		}
 	}
 	
+	virtual void reset(void)
+	{
+		MeanEstimator<T>::reset();
+		mean_ = T(0);
+	}
+
+
+	
 protected:
+	const bool unbiased_;
 	T mean_;
-	bool unbiased_;
 private:
 };
 
 
+/**Base class for a sample variance estimator of complex<T> type.
+ * Technique: partial template specialization
+ */
+template<class T>
+class VarianceEstimator< std::complex<T> > : public MeanEstimator<T>
+{
+public:
+	VarianceEstimator()
+	: unbiased_(true)
+	, mean_(std::complex<T>(0,0))
+	{ }
+	
+	VarianceEstimator(const std::complex<T> &mean, bool unbiased = true)
+	: unbiased_(unbiased)
+	, mean_(mean)
+	{ }
+	
+	virtual void record(const std::complex<T> &x)
+	{
+		MeanEstimator<T>::accumulator_ = MeanEstimator<T>::accumulator_ + std::norm(x - mean_);
+		MeanEstimator<T>::count_++;
+	}
+	
+	virtual T estimate(void)
+	{
+		if (MeanEstimator<T>::count_ == 0)
+			return NAN;
+
+		if (unbiased_)
+			return MeanEstimator<T>::accumulator_ / static_cast<T>(MeanEstimator<T>::count_ - 1);
+		else
+			return MeanEstimator<T>::accumulator_ / static_cast<T>(MeanEstimator<T>::count_);
+	}
+	
+	virtual void reset(void)
+	{
+		MeanEstimator<T>::reset();
+		mean_ = std::complex<T>(0,0);
+	}
+
+protected:
+	const bool unbiased_;
+	std::complex<T> mean_;
+private:
+};
 
 
 

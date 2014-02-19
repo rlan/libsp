@@ -44,22 +44,22 @@ void test_estimator_real(void)
 	const size_t N = 10;
 	std::vector<double> samples(N);
 	for (size_t i = 1; i <= N; i++)
-		samples[i] = i;
+		samples[i-1] = i;
 	std::cout << "Samples are: ";
 	for (size_t i = 1; i <= N; i++)
-		std::cout << samples[i] << " ";
+		std::cout << samples[i-1] << " ";
 	std::cout << std::endl;
 	
 	MeanEstimator<double> me;
 	for (size_t i = 1; i <= N; i++)
-		me.record(samples[i]);
+		me.record(samples[i-1]);
 	std::cout << "Mean of " << me.count() << " sample(s) is " << me.estimate() << std::endl;
 
 	VarianceEstimator<double> veu(me.estimate(), true); // unbiased
 	VarianceEstimator<double> veb(me.estimate(), false); // biased
 	for (size_t i = 1; i <= N; i++) {
-		veu.record(samples[i]);
-		veb.record(samples[i]);
+		veu.record(samples[i-1]);
+		veb.record(samples[i-1]);
 	}
 	std::cout << "Unbiased variance of " << veu.count() << " sample(s) is " << veu.estimate() << std::endl;
 	std::cout << "Biased variance of " << veb.count() << " sample(s) is " << veb.estimate() << std::endl;
@@ -67,20 +67,44 @@ void test_estimator_real(void)
 	me.reset();
 	veu.reset();
 	veb.reset();
+	std::cout << "After resets:" << std::endl;
+	std::cout << "Mean of " << me.count() << " sample(s) is " << me.estimate() << std::endl;
+	std::cout << "Unbiased variance of " << veu.count() << " sample(s) is " << veu.estimate() << std::endl;
+	std::cout << "Biased variance of " << veb.count() << " sample(s) is " << veb.estimate() << std::endl;
 }
 	
 void test_estimator_complex(void)
 {
 	std::cout << __func__ << "..." << std::endl;
 
-	MeanEstimator< std::complex<double> > cxme;
+	const size_t N = 10;
+	std::vector< std::complex<double> > samples(N);
+	for (size_t i = 1; i <= N; i++)
+		samples[i-1] = std::complex<double>(double(i), double(2*i));
+
 	std::cout << "Samples are: ";
-	for (size_t i = 1; i <= 10; i++) {
-		std::cout << std::complex<double>(double(i), double(2*i)) << " ";
-		cxme.record(std::complex<double>(double(i), double(2*i)));
-	}
+	for (size_t i = 1; i <= N; i++)
+		std::cout << samples[i-1] << " ";
 	std::cout << std::endl;
-	std::cout << "Mean of " << cxme.count() << " sample(s) is " << cxme.estimate() << std::endl;
+
+	MeanEstimator< std::complex<double> > me;
+	for (size_t i = 1; i <= N; i++)
+		me.record(samples[i-1]);
+	std::cout << "Mean of " << me.count() << " sample(s) is " << me.estimate() << std::endl;
+
+	VarianceEstimator< std::complex<double> > veu(me.estimate(), true); // unbiased
+	for (size_t i = 1; i <= N; i++) {
+		veu.record(samples[i-1]);
+	}
+	std::cout << "Unbiased variance of " << veu.count() << " sample(s) is " << veu.estimate() << std::endl;
+
+	me.reset();
+	veu.reset();
+	//veb.reset();
+	std::cout << "After resets:" << std::endl;
+	std::cout << "Mean of " << me.count() << " sample(s) is " << me.estimate() << std::endl;
+	std::cout << "Unbiased variance of " << veu.count() << " sample(s) is " << veu.estimate() << std::endl;
+	//std::cout << "Biased variance of " << veb.count() << " sample(s) is " << veb.estimate() << std::endl;
 }
 
 void test_estimator(void)
