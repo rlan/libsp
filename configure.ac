@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.68])
 AC_INIT([libsp], [0.1], [])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AM_SILENT_RULES(yes)
