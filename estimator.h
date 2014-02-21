@@ -34,7 +34,7 @@ private:
 
 /**A sample mean estimator
  * For scalar random variable and does not support vector random variables.
- * Reference: http://mathworld.wolfram.com/SampleVariance.html
+ * Reference: http://mathworld.wolfram.com/SampleMean.html
  */
 template<class T>
 class MeanEstimator : public Estimator<T>
