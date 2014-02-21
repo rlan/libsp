@@ -1,7 +1,6 @@
 /**\file
  * \brief Estimator classes for random variables.
  *
- * TODO: partial template specialization for complex-valued variance estimator.
  *
  * \author Rick Lan
  * \copyright See LICENSE for license.
@@ -15,7 +14,8 @@
 #include <complex>
 
 
-/**Abstract base class of an estimator
+/**Protocol of an estimator
+ * Technique: abstract base class
  */
 template<class T>
 class Estimator
@@ -32,8 +32,9 @@ private:
 };
 
 
-/**Base class for a sample mean estimator
- * For scalar random variable and does not support vector random variable.
+/**A sample mean estimator
+ * For scalar random variable and does not support vector random variables.
+ * Reference: http://mathworld.wolfram.com/SampleVariance.html
  */
 template<class T>
 class MeanEstimator : public Estimator<T>
@@ -73,7 +74,9 @@ private:
 };
 
 
-/**Base class for a sample variance estimator
+/**A sample variance estimator
+ * Can be unbiased or biased.
+ * Reference: http://mathworld.wolfram.com/SampleVariance.html
  */
 template<class T>
 class VarianceEstimator : public MeanEstimator<T>
@@ -121,7 +124,10 @@ private:
 };
 
 
-/**Base class for a sample variance estimator of complex<T> type.
+/**A sample variance estimator of complex<T> type.
+ * Can be unbiased or biased.
+ * Reference: http://mathworld.wolfram.com/SampleVariance.html
+ * Also see: VarianceEstimator<T>
  * Technique: partial template specialization
  */
 template<class T>
