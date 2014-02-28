@@ -2,10 +2,11 @@
  * \brief Contains floating- and fixed-point (templates) FIR filters.
  *
  * This file contains the following classes
- * - FIRBasic: floating-point FIR filter.
- * - FIR<>: templated fixed-point FIR filter.
- * - FIRSymmetric<>: templated fixed-point FIR filter that reduces number of
- * multiplies by taking advantage of symmetry in the coefficients.
+ * - FIRBasic: floating-point FIR filter with real-valued coefficients.
+ * - FIR<>: templated fixed-point FIR filter with real-valued coefficients.
+ * - FIRSymmetric<>: templated fixed-point FIR filter with real-valued coefficients. 
+ * Number of multiplies reduced by taking advantage of coefficient symmetry. 
+ * - CxFIR<>: templated fixed-point FIR filter with complex-valued coefficients.
  *
  * All of the above support
  * - filter(): textbook filter operation.
@@ -222,7 +223,7 @@ protected:
 };
 
 /**
- * Direct form FIR filter that uses text book multiply and accumulate.
+ * Direct form FIR filter for real-valued coefficients.
  *
  * Runs at one-sample rate.
  *
@@ -304,8 +305,8 @@ protected:
 
 
 /**
- * Direct form FIR filter that takes advantage of symmetric coefficients by
- * adding the inputs first, then multiply and accumulate.
+ * Direct form FIR filter for real-valued coefficients that takes advantage of symmetric 
+ * coefficients by adding the inputs first, then multiply and accumulate.
  *
  * Runs at one-sample rate.
  *
@@ -402,7 +403,18 @@ protected:
 
 
 /**
- * TODO
+ * Direct form FIR filter for complex-valued coefficients.
+ *
+ * Runs at one-sample rate.
+ *
+ * Assumes coefficients are already quantized.
+ *
+ * Difference equation:
+ * Shift delay line and DelayLine[0] = in
+ * out = Coeffs[0]*DelayLine[0]
+ *       + Coeffs[1]*DelayLine[1]
+ *       + ...
+ *       + Coeffs[N-1]*DelayLine[N-1];
  */
 template<
 	class T_IN=double,
