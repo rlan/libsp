@@ -1,0 +1,14 @@
+language: cpp
+
+compiler: gcc
+
+script:
+- mkdir -p build
+- cd build
+- cmake ../test
+- make
+
+after_failure:
+- cmake --version
+- gcc --version
+- g++ --version
