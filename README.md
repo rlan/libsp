@@ -35,3 +35,4 @@ Items in no particular order.
 - [ ] Use cpp/hpp
 - [ ] Use namespace
 - [ ] Use Boost::Test
+- [ ] travis-ci: test both gcc and clang
