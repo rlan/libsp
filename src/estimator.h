@@ -53,6 +53,8 @@ public:
 	
 	virtual T estimate(void)
 	{
+		if (count_ == 0)
+			return T(0);
 		return accumulator_ / static_cast<T>(count_);
 	}
 	
@@ -101,7 +103,7 @@ public:
 	virtual T estimate(void)
 	{
 		if (MeanEstimator<T>::count_ == 0)
-			return NAN;
+			return T(0);
 
 		if (unbiased_)
 			return MeanEstimator<T>::accumulator_ / static_cast<T>(MeanEstimator<T>::count_ - 1);
