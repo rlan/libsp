@@ -17,7 +17,9 @@ doxygen Doxyfile
 
 Documentation entry point: `doc/html/index.html`
 
-## Roadmap
+## TODO
+
+Items in no particular order.
 
 - [x] Complex multiplier
 - [x] FIR filter
@@ -30,3 +32,6 @@ Documentation entry point: `doc/html/index.html`
 - [ ] Signal statistics
 - [ ] Fixed-point number class
 - [ ] Auto fixed-point format computation
+- [ ] Use cpp/hpp
+- [ ] Use namespace
+- [ ] Use Boost::Test
