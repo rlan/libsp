@@ -2,13 +2,13 @@ libsp  [![Build Status](https://travis-ci.org/rlan/libsp.svg?branch=master)](htt
 ============
 A header-files-only, templated C++ library of signal processing algorithms and their fixed-point model.
 
-# Build
+## Build
 
 ```sh
 mkdir -p build && cd build && cmake ../test && make
 ```
 
-# Documentation
+## Documentation
 Generate documentation using doxygen:
 
 ```sh
@@ -16,3 +16,17 @@ doxygen Doxyfile
 ```
 
 Documentation entry point: `doc/html/index.html`
+
+## Roadmap
+
+- [x] Complex multiplier
+- [x] FIR filter
+- [x] FIR filter with symmetric coefficients
+- [x] FIR filter with complex coefficients
+- [ ] Transposed FIR filter
+- [x] Multi-rate FIR filter
+- [x] IIR biquad filter
+- [x] Estimator (mean and variance)
+- [ ] Signal statistics
+- [ ] Fixed-point number class
+- [ ] Auto fixed-point format computation
