@@ -36,3 +36,11 @@ Items in no particular order.
 - [ ] Use namespace
 - [ ] Use Boost::Test
 - [ ] travis-ci: test both gcc and clang
+
+## Maintainer
+
+Rick Lan
+
+## License
+
+[BSD 3-clause](LICENSE)
