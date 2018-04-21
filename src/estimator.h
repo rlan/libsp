@@ -27,7 +27,7 @@ protected:
 	virtual void reset(void) = 0;
 	virtual void record(const T &x) = 0;
 	virtual T estimate(void) = 0;
-	virtual size_t count(void) = 0;
+	virtual size_t count(void) const = 0;
 private:
 };
 
@@ -64,7 +64,7 @@ public:
 		count_ = 0;
 	}
 	
-	virtual size_t count(void)
+	virtual size_t count(void) const
 	{
 		return count_;
 	}
