@@ -1,10 +1,12 @@
 /**
  * Recoded from https://www.johndcook.com/blog/skewness_kurtosis/
  */
-#ifndef RUNNINGSTATS_H_
-#define RUNNINGSTATS_H_
+#ifndef RUNNINGSTATS_HPP_
+#define RUNNINGSTATS_HPP_
 
 #include <cmath>
+
+#include <algorithm>
 #include <vector>
  
 class RunningStats
@@ -19,6 +21,8 @@ public:
   {
     n = 0;
     M1 = M2 = M3 = M4 = 0.0;
+    min_ = max_ = 0.0;
+    once = false;
   }
   
   void push(double x)
@@ -35,6 +39,14 @@ public:
     M4 += term1 * delta_n2 * (n*n - 3*n + 3) + 6 * delta_n2 * M2 - 4 * delta_n * M3;
     M3 += term1 * delta_n * (n - 2) - 3 * delta_n * M2;
     M2 += term1;
+
+    if (!once) {
+      min_ = max_ = x;
+      once = true;
+    } else {
+      min_ = std::min(min_, x);
+      max_ = std::max(max_, x);
+    }
   }
   
   long long count() const
@@ -67,6 +79,16 @@ public:
     return double(n)*M4 / (M2*M2) - 3.0;
   }
 
+  double min() const
+  {
+    return min_;
+  }
+
+  double max() const
+  {
+    return max_;
+  }
+
   friend RunningStats operator+(const RunningStats a, const RunningStats b);
 
   RunningStats& operator+=(const RunningStats &rhs)
@@ -80,6 +102,8 @@ public:
 private:
   long long n;
   double M1, M2, M3, M4;
+  double min_, max_;
+  bool once;
 };
 
 RunningStats operator+(const RunningStats a, const RunningStats b)
@@ -106,9 +130,13 @@ RunningStats operator+(const RunningStats a, const RunningStats b)
                 (combined.n*combined.n*combined.n);
   combined.M4 += 6.0*delta2 * (a.n*a.n*b.M2 + b.n*b.n*a.M2)/(combined.n*combined.n) + 
                 4.0*delta*(a.n*b.M3 - b.n*a.M3) / combined.n;
+
+  combined.min_ = a.min_ + b.min_;
+  combined.max_ = a.max_ + b.max_;
+  combined.once = a.once | b.once;
     
   return combined;
 }
 
 
-#endif // RUNNINGSTATS_H_
+#endif // RUNNINGSTATS_HPP_
