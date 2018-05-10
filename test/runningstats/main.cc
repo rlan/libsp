@@ -9,6 +9,8 @@
 
 #include "runningstats.hpp"
 
+#define TOLERANCE 0.00001
+
 BOOST_AUTO_TEST_SUITE( suite_estimator );
 
 BOOST_AUTO_TEST_CASE( test_runningstats )
@@ -18,6 +20,8 @@ BOOST_AUTO_TEST_CASE( test_runningstats )
   RunningStats estimator;
   BOOST_CHECK(estimator.count() == 0);
   BOOST_CHECK(estimator.mean() == 0.0);
+  BOOST_CHECK(estimator.min() == 0.0);
+  BOOST_CHECK(estimator.max() == 0.0);
 
   for (auto x : data)
     estimator.push(x);
@@ -26,11 +30,15 @@ BOOST_AUTO_TEST_CASE( test_runningstats )
   BOOST_CHECK(estimator.variance() == 7.5);
   BOOST_CHECK(estimator.standard_deviation() == sqrt(7.5));
   BOOST_CHECK(estimator.skewness() == 0);
-  BOOST_CHECK(estimator.kurtosis() == -1.2);
+  BOOST_CHECK(estimator.kurtosis() - 1.573333 < TOLERANCE);
+  BOOST_CHECK(estimator.min() == 1.0);
+  BOOST_CHECK(estimator.max() == 9.0);
   
   estimator.clear();
   BOOST_CHECK(estimator.count() == 0);
   BOOST_CHECK(estimator.mean() == 0.0);
+  BOOST_CHECK(estimator.min() == 0.0);
+  BOOST_CHECK(estimator.max() == 0.0);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
