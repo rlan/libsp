@@ -3,10 +3,10 @@ noinst_PROGRAMS = main
 
 ## .h files for all templates
 HFILES_TEMPLATES = \
-	estimator.h \
 	complexmultiply.h \
 	filter.h \
-	fir.h
+	fir.h \
+	runningstats.hpp
 
 ## .cc files for all templates
 CCFILES_TEMPLATES =
