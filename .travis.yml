@@ -4,6 +4,9 @@ compiler:
 - gcc
 - clang
 
+install:
+- sudo apt-get install libboost-all-dev
+
 script:
 - mkdir -p build && cd build && cmake ../test && make && cd ..
 - mkdir -p build-runningstats && cd build-runningstats && cmake ../test/runningstats && make && cd ..
